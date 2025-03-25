@@ -1,17 +1,16 @@
-import { SignOutButton } from '@/components/SignOutButton'
-import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
-import { Link } from 'expo-router'
-import { Text, View } from 'react-native'
-
-export default function Page() {
-  const { user } = useUser()
-
+import Colors from "@/constants/Colors";
+import { StyleSheet, Text, View } from "react-native";
+export default function Home() {
   return (
-    <View>
-      <Text>
-        yo
-      </Text>
-      <SignOutButton />
+    <View style={styles.container}>
+      <Text>yo</Text>
     </View>
-  )
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.background,
+    flex: 1,
+  },
+});
