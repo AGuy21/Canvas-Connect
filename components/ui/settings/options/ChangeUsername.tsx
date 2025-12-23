@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import SettingsButton from "../SettingsButton";
-import Colors from "@/constants/Colors";
+import { useThemeStore } from "@/components/hooks/useThemeStore";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -15,6 +15,7 @@ import { router } from "expo-router";
 
 const ChangeUsername = () => {
   const { user } = useUser();
+  const { colors } = useThemeStore();
 
   const userData = useUserDataStore((state) => state.data);
   const setUserData = useUserDataStore((state) => state.setData);
@@ -48,19 +49,30 @@ const ChangeUsername = () => {
   return (
     <>
       {isPromptOpen ? (
-        <View style={styles.promptContainer}>
+        <View
+          style={[
+            styles.promptContainer,
+            {
+              backgroundColor: colors.background,
+              borderBottomColor: colors.text2,
+            },
+          ]}
+        >
           <TextInput
-            style={styles.editBox}
+            style={[
+              styles.editBox,
+              { color: colors.text, borderBottomColor: colors.primaryDark },
+            ]}
             value={newUsername}
             onChangeText={(newUsername) => setNewUsername(newUsername)}
           />
           <View style={styles.approvalBox}>
             <Pressable onPress={SaveUsername}>
-              <Entypo name="check" size={wp(6)} color={Colors.secondary} />
+              <Entypo name="check" size={wp(6)} color={colors.secondary} />
             </Pressable>
 
             <Pressable onPress={CancelUsernameChange}>
-              <Entypo name="cross" size={wp(7)} color={Colors.error} />
+              <Entypo name="cross" size={wp(7)} color={colors.error} />
             </Pressable>
           </View>
         </View>
@@ -69,7 +81,7 @@ const ChangeUsername = () => {
           onPress={() => setIsPromptOpen(true)}
           icon={"drive-file-rename-outline"}
           text="Change Username"
-          color={Colors.primaryLight}
+          color={colors.primaryLight}
         />
       )}
     </>
@@ -82,10 +94,8 @@ const styles = StyleSheet.create({
     paddingVertical: hp(2),
     paddingHorizontal: wp(5),
     width: wp(100),
-    backgroundColor: Colors.background,
     alignItems: "center",
     justifyContent: "space-between",
-    borderBottomColor: Colors.text2,
     borderBottomWidth: hp(0.1),
   },
   approvalBox: {
@@ -95,9 +105,7 @@ const styles = StyleSheet.create({
     flex: 0.3,
   },
   editBox: {
-    color: Colors.text,
     flex: 0.6,
-    borderBottomColor: Colors.primaryDark,
     borderBottomWidth: wp(0.2),
     paddingLeft: wp(3),
     fontFamily: "Nunito-Bold",
@@ -105,7 +113,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "Nunito-Bold",
-    color: Colors.text,
     fontSize: hp(1.75),
   },
 });
